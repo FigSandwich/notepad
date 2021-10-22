@@ -1,0 +1,43 @@
+import numpy as np
+import pandas as pd
+import os
+import datetime
+# set directory with yours
+base_dir = 'C:/'
+excel_file = 'excel2.xlsx'
+excel_dir = os.path.join(base_dir, excel_file)
+# read a excel file and make it as a DataFrame
+df_from_excel = pd.read_excel(excel_dir, sheet_name = 'sheet1')
+
+df_from_excel.지역[0]
+location =[]
+period = []
+
+def column_number(a):
+    for i in range(len(df.columns)):
+        if df.columns[i] == a:
+            return i
+def yyyy_ww(a):
+    return a.isocalendar()[0]*100+a.isocalendar()[1]
+
+
+for i in range(len(df_from_excel)) :
+    if df_from_excel.지역[i] in location:
+        continue
+    else:
+        location.append(df_from_excel.지역[i])
+
+for i in range(len(df_from_excel)) :
+    if df_from_excel.확진일[i].isocalendar()[0]*100+df_from_excel.확진일[i].isocalendar()[1] in period:
+        continue
+    else:
+        period.append(df_from_excel.확진일[i].isocalendar()[0]*100+df_from_excel.확진일[i].isocalendar()[1])
+df = pd.DataFrame(period,columns=['week'])
+for i in range(len(location)):
+    df[location[i]]=0
+    
+for i in range(len(df_from_excel)):
+    df[df.columns[column_number(df_from_excel.지역[i])]][period.index(yyyy_ww(df_from_excel.확진일[i]))]= df[df.columns[column_number(df_from_excel.지역[i])]][period.index(yyyy_ww(df_from_excel.확진일[i]))]+1
+
+    
+        
