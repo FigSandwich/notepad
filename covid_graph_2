@@ -1,0 +1,97 @@
+import numpy as np
+import pandas as pd
+import os
+import datetime
+import matplotlib.pyplot as plt
+
+
+# set directory with yours
+base_dir = 'C:/'
+excel_file = 'excel3.xlsx'
+excel_dir = os.path.join(base_dir, excel_file)
+# read a excel file and make it as a DataFrame
+df_from_excel_1 = pd.read_excel(excel_dir, sheet_name = 'sheet1')
+df_from_excel_1 = df_from_excel_1.drop(['작업일자'],axis=1)
+idx = df_from_excel_1[df_from_excel_1['사용월'] < 202101].index 
+df_from_excel_1=df_from_excel_1.drop(idx)
+
+df_from_excel_1 = df_from_excel_1.groupby(by=['사용월','호선명'], as_index=False).sum()
+
+find_word = '하차인원'
+word_list = []
+try:
+    for i in range(len(df_from_excel_1.columns)):
+        if find_word in df_from_excel_1.columns[i]:
+            word_list.append(df_from_excel_1.columns[i])
+    for i in range(len(word_list)):
+        df_from_excel_1= df_from_excel_1.drop(columns=[word_list[i]], axis=1)
+            
+except:
+    pass
+
+df_from_excel_1['합계'] = df_from_excel_1.sum(axis=1)-df_from_excel_1.사용월
+
+find_word = '승차인원'
+word_list = []
+try:
+    for i in range(len(df_from_excel_1.columns)):
+        if find_word in df_from_excel_1.columns[i]:
+            word_list.append(df_from_excel_1.columns[i])
+    for i in range(len(word_list)):
+        df_from_excel_1= df_from_excel_1.drop(columns=[word_list[i]], axis=1)
+            
+except:
+    pass
+
+
+
+
+df_from_excel_2 = pd.read_excel(excel_dir, sheet_name = 'sheet2')
+
+
+#######################################################################################################
+
+plt.rcParams['figure.figsize'] = [12, 8]
+plt.rcParams['font.family'] = 'NanumGothic'
+
+x = np.arange(9)
+years = ['202101', '202102', '202103','202104','202105','202106','202107','202108','202109']
+values = [0,0,0,3.3, 15.1, 27.1, 31.9, 30.9, 50.3]
+
+
+fig, ax1 = plt.subplots()
+
+
+location = []
+for i in range(len(df_3.columns)):
+    if df_3.columns[i] in '기간':
+        continue
+    else:
+        location.append(df_3.columns[i]) 
+
+
+for i in range(len(location)):
+    ax1.plot(df_3[location[i]])
+    
+
+
+plt.title('누적 접종률 및 호선별 월 이용 인원', fontsize=20) 
+
+plt.ylabel('확진자 수', fontsize=14)
+
+plt.xlabel('날짜', fontsize=14)
+
+ax1.legend(location)
+ax2=ax1.twinx()
+
+ax2.bar(x, values, color=colors)
+
+ax1.set_zorder(ax2.get_zorder() + 10)
+ax1.patch.set_visible(False)
+
+plt.xticks(x, years)
+
+
+
+
+plt.show()  
