@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 import os
 import datetime
+import matplotlib.pyplot as plt
+
+
 # set directory with yours
 base_dir = 'C:/'
 excel_file = 'excel2.xlsx'
@@ -39,5 +42,20 @@ for i in range(len(location)):
 for i in range(len(df_from_excel)):
     df[df.columns[column_number(df_from_excel.지역[i])]][period.index(yyyy_ww(df_from_excel.확진일[i]))]= df[df.columns[column_number(df_from_excel.지역[i])]][period.index(yyyy_ww(df_from_excel.확진일[i]))]+1
 
+plt.rcParams['figure.figsize'] = [12, 8]
+plt.rcParams['font.family'] = 'NanumGothic'
+for i in range(len(location)):
+    plt.plot(df[df.columns[column_number(df_from_excel.지역[i])]])
     
+
+
+plt.title('각 구별(지역) 확진자 발생 추이', fontsize=20) 
+
+plt.ylabel('확진자 수', fontsize=14)
+
+plt.xlabel('날짜', fontsize=14)
+
+plt.legend(location)
+
+plt.show()    
         
